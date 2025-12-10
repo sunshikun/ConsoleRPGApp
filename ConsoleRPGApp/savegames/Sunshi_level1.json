@@ -1,0 +1,48 @@
+{
+  "saves": [
+    {
+      "name": "Sunshi",
+      "Klasse": "Krieger",
+      "level": 1,
+      "experience": 30,
+      "gold": 20,
+      "health": 96,
+      "mana": 50,
+      "strength": 15,
+      "agility": 8,
+      "intelligence": 5,
+      "defense": 13,
+      "stamina": 6,
+      "luck": 6,
+      "charisma": 9,
+      "wisdom": 5,
+      "armor": 9,
+      "speed": 2,
+      "critChance": 10,
+      "critDamage": 150,
+      "hpRegen": 3,
+      "mpRegen": 1,
+      "attackSpeed": 2,
+      "spellPower": 2,
+      "physical": true,
+      "magical": false,
+      "equippedWeapon": "None",
+      "equippedArmor": "None",
+      "equippedAccessory": "None",
+      "inventory": [],
+      "equippedItems": [],
+      "consumables": [],
+      "questItems": [],
+      "craftingMaterials": [],
+      "miscItems": [],
+      "loot": [],
+      "mapData": [
+        "Museum",
+        "Obsthain",
+        "Schrein",
+        "Dorf",
+        "Obsthain"
+      ]
+    }
+  ]
+}
