@@ -18,29 +18,29 @@ namespace SaveTheWorld
     public class SaveGameManager
     {
         // Alle Dateien im Ordner auslesen
-        
+
         public void ListFilesInFolder(string folderPath)
         {
             if (Directory.Exists(folderPath))
             {
                 string[] files = Directory.GetFiles(folderPath);
 
-                Console.WriteLine("Dateien im Ordner:");
+                Console.WriteLine("Files in folder:");
                 foreach (string file in files)
                 {
-                    Console.WriteLine(Path.GetFileName(file)); // Nur Dateinamen
+                    Console.WriteLine(Path.GetFileName(file)); // Only file names
                 }
             }
             else
             {
-                Console.WriteLine("Ordner existiert nicht!");
+                Console.WriteLine("Folder does not exist!");
             }
         }
     }
     public sealed class SaveData
     {
         // ... (wie gehabt, unverändert)
-        [JsonPropertyName("name")] public string? Name { get; set; }       
+        [JsonPropertyName("name")] public string? Name { get; set; }
         [JsonPropertyName("Klasse")] public string? Klasse { get; set; }
         [JsonPropertyName("level")] public int Level { get; set; }
         [JsonPropertyName("experience")] public long Experience { get; set; }
@@ -108,9 +108,9 @@ namespace SaveTheWorld
         // Load all SaveData entries from a file
         public static List<SaveData> LoadAll(string path)
         {
-            if (!File.Exists(path)) throw new FileNotFoundException("Save-Datei fehlt.", path);
+            if (!File.Exists(path)) throw new FileNotFoundException("Save file missing.", path);
             var json = File.ReadAllText(path);
-            if (string.IsNullOrWhiteSpace(json)) throw new InvalidDataException("Save-Datei ist leer.");
+            if (string.IsNullOrWhiteSpace(json)) throw new InvalidDataException("Save file is empty.");
 
             SaveDataSet? set = null;
             try
@@ -136,7 +136,7 @@ namespace SaveTheWorld
         public static void LoadIntoCharacter(string path, Character c)
         {
             var saves = LoadAll(path);
-            if (saves.Count == 0) throw new InvalidDataException("Keine Speichersätze gefunden.");
+            if (saves.Count == 0) throw new InvalidDataException("No save records found.");
             ApplyToCharacter(c, saves[0]);
         }
 
@@ -145,7 +145,7 @@ namespace SaveTheWorld
             return new SaveData
             {
                 Name = c.Name,
-                Klasse  = c.Klasse,
+                Klasse = c.Klasse,
                 Level = c.Level,
                 Experience = c.Experience,
                 Gold = c.Gold,
@@ -224,13 +224,13 @@ namespace SaveTheWorld
             ReplaceWith(c.Loot, d.Loot);
 
             if (d.MapData != null && d.MapData.Count > 0)
-                {
-                    c.CurrentMap = Map.DeserializeMap(d.MapData);
-                }
+            {
+                c.CurrentMap = Map.DeserializeMap(d.MapData);
+            }
             else
-                {
-                    c.CurrentMap = new Map("Abenteuerland", 10);  // Nur wenn KEINE Daten vorhanden
-                }
+            {
+                c.CurrentMap = new Map("Abenteuerland", 10);  // Nur wenn KEINE Daten vorhanden
+            }
 
 
 
@@ -259,7 +259,7 @@ namespace SaveTheWorld
                 return d;
 
             int N(string i) => int.TryParse(i, out var v) ? v : 0;
-            
+
             double Nd(string i) => double.TryParse(i, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : 0.0;
             bool Nb(string i) => i.Equals("true", StringComparison.OrdinalIgnoreCase) || i == "1";
             string S(int i) => (i >= 0 && i < a.Count && a[i] is not null) ? a[i]!.ToString() : "";

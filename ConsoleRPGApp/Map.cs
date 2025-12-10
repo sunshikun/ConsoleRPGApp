@@ -25,7 +25,7 @@ namespace Maps
         public void AddLocation(string location)
         {
             Locations.Add(location);
-            Console.WriteLine($"{location} wurde zur Karte {Name} hinzugefügt.");
+            Console.WriteLine($"{location} was added to map {Name}.");
         }
         public void DisplayMap()
         {
@@ -33,14 +33,14 @@ namespace Maps
 
             while (option != 3)
             {
-                Console.WriteLine("Wähle eine Option:");
-                Console.WriteLine("1. Karte anzeigen");
-                Console.WriteLine("2. laufen");
-                Console.WriteLine("3. Beenden");
-                Console.Write("Deine Wahl: ");
+                Console.WriteLine("Choose an option:");
+                Console.WriteLine("1. Show Map");
+                Console.WriteLine("2. Walk");
+                Console.WriteLine("3. Exit");
+                Console.Write("Your choice: ");
                 if (!int.TryParse(Console.ReadLine(), out option))
                 {
-                    Console.WriteLine("Ungültige Eingabe.");
+                    Console.WriteLine("Invalid input.");
                     Console.WriteLine();
                     continue;
                 }
@@ -48,32 +48,32 @@ namespace Maps
                 switch (option)
                 {
                     case 1:
-                        Console.WriteLine("Karte wird angezeigt:");
-                        Console.WriteLine($"Karte: {Name}, Größe: {Size}");
-                        Console.WriteLine("Orte:");
+                        Console.WriteLine("Showing Map:");
+                        Console.WriteLine($"Map: {Name}, Size: {Size}");
+                        Console.WriteLine("Locations:");
                         foreach (var location in Locations)
-                                {
-                                    Console.WriteLine($"- {location}");
-                                }
-                        watchMap(5); // Nur einmal aufrufen
+                        {
+                            Console.WriteLine($"- {location}");
+                        }
+                        watchMap(5); // Call only once
                         break;
 
                     case 2:
                         if (Locations.Count > 0)
                         {
                             MoveToLocation(Locations[Random.Shared.Next(Locations.Count)]);
-                            Console.WriteLine("Du läufst durch die Karte...");
+                            Console.WriteLine("You are walking through the map...");
                         }
                         else
                         {
-                            Console.WriteLine("Keine Orte vorhanden.");
+                            Console.WriteLine("No locations available.");
                         }
                         break;
                     case 3:
-                        Console.WriteLine("Beende Kartenanzeige.");
+                        Console.WriteLine("Exiting map view.");
                         break;
                     default:
-                        Console.WriteLine("Ungültige Option.");
+                        Console.WriteLine("Invalid option.");
                         break;
                 }
 
@@ -82,16 +82,16 @@ namespace Maps
         }
         public void GenerateRandomMap(int numberOfLocations)
         {
-            string[] possibleLocations = { "Dorf", "Stadt", "Wald", "Berg", "See", "Fluss", "Höhle", "Ruine", "Tempel", "Schloss", "Insel", "Wüste", "Sumpf", "Hügel", "Tal", "Kloster", "Festung", "Hafen", "Markt", "Arena",
-            "Turm", "Labyrinth", "Garten", "Brücke", "Pfad", "Wachturm", "Feld", "Hain", "Schrein", "Obsthain", "Weinberg", "Friedhof", "Bibliothek", "Labor", "Werkstatt", "Schmiede", "Bäckerei", "Taverne", "Gasthaus",
-            "Marktplatz", "Zitadelle", "Burg", "Kathedrale", "Theater", "Museum", "Park", "Plaza", "Boulevard", "Promenade", "Parkanlage", "Botanischer Garten", "Aquarium", "Zoo", "Planetarium", "Observatorium" };
+            string[] possibleLocations = { "Village", "City", "Forest", "Mountain", "Lake", "River", "Cave", "Ruins", "Temple", "Castle", "Island", "Desert", "Swamp", "Hill", "Valley", "Monastery", "Fortress", "Harbor", "Market", "Arena",
+            "Tower", "Maze", "Garden", "Bridge", "Path", "Watchtower", "Field", "Grove", "Shrine", "Orchard", "Vineyard", "Cemetery", "Library", "Laboratory", "Workshop", "Forge", "Bakery", "Tavern", "Inn",
+            "Marketplace", "Citadel", "Keep", "Cathedral", "Theater", "Museum", "Park", "Plaza", "Boulevard", "Promenade", "Parkland", "Botanical Garden", "Aquarium", "Zoo", "Planetarium", "Observatory" };
 
             for (int i = 0; i < numberOfLocations; i++)
             {
                 string location = possibleLocations[Random.Shared.Next(possibleLocations.Length)];
                 AddLocation(location);
             }
-            
+
         }
         public List<string> SerializeMap()
         {
@@ -99,7 +99,7 @@ namespace Maps
         }
         public static Map DeserializeMap(List<string> mapData)
         {
-            Map map = new Map("Geladene Karte", mapData.Count);
+            Map map = new Map("Loaded Map", mapData.Count);
             map.Locations = new List<string>(mapData); // Kopie erstellen
             return map;
         }
@@ -107,17 +107,17 @@ namespace Maps
         public void ClearMap()
         {
             Locations.Clear();
-            Console.WriteLine($"Karte {Name} wurde zurückgesetzt.");
+            Console.WriteLine($"Map {Name} has been reset.");
         }
         public void MoveToLocation(string location)
         {
             if (Locations.Contains(location))
             {
-                Console.WriteLine($"Du bewegst dich zu {location} auf der Karte {Name}.");
+                Console.WriteLine($"You move to {location} on map {Name}.");
             }
             else
             {
-                Console.WriteLine($"{location} ist nicht auf der Karte {Name} vorhanden.");
+                Console.WriteLine($"{location} is not available on map {Name}.");
             }
         }
         public void watchMap(int size)
@@ -132,5 +132,5 @@ namespace Maps
                 Console.WriteLine();
             }
         }
-    }   
+    }
 }

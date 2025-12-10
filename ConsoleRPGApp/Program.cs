@@ -15,10 +15,10 @@ using SaveTheWorld;
 
 namespace ConsoleRPGApp
 {
-    class Program
+        class Program
         {
-        static void Main(string[] args)
-        {
+                static void Main(string[] args)
+                {
                         /*Test trade = new Test();
                         trade.test1();*/
                         SaveGameManager saveSystem = new SaveGameManager();
@@ -26,30 +26,30 @@ namespace ConsoleRPGApp
                         saveSystem.ListFilesInFolder("savegames");
                         Einleitung.Intro();
                         Character player = null;
-                        Console.WriteLine("Möchtest du einen alten Spielstand laden? (j/n)");
+                        Console.WriteLine("Do you want to load an old save game? (y/n)");
                         string loadChoice = Console.ReadLine();
-                        if (loadChoice?.ToLower() == "j")
+                        if (loadChoice?.ToLower() == "y")
                         {
-                                Console.WriteLine("Gib den Namen deines Charakters ein:");
+                                Console.WriteLine("Enter character name:");
                                 string name = Console.ReadLine();
-                                Console.WriteLine("Gib das Level deines Charakters ein:");
+                                Console.WriteLine("Enter character level:");
                                 string levelInput = Console.ReadLine();
                                 int level = 1;
                                 int.TryParse(levelInput, out level);
-                                Console.WriteLine("Gib die Klasse deines Charakters ein:");
+                                Console.WriteLine("Enter character class:");
                                 string klasse = Console.ReadLine();
-                                
+
                                 string savePath = $"savegames/{name}_level{level}.json";
                                 if (File.Exists(savePath))
                                 {
                                         player = new Character(name);
                                         SaveSystem.LoadIntoCharacter(savePath, player);
-                                        Console.WriteLine("Spielstand geladen!");
+                                        Console.WriteLine("Game loaded!");
                                         gameMap = player.CurrentMap;
                                 }
                                 else
                                 {
-                                        Console.WriteLine("Kein Spielstand gefunden, neuer Charakter wird erstellt.");
+                                        Console.WriteLine("No save game found, creating new character.");
                                         player = CharakterErstellung.CreateCharacter();
                                         gameMap.GenerateRandomMap(5);
                                         player.CurrentMap = gameMap;
@@ -64,20 +64,20 @@ namespace ConsoleRPGApp
                         bool playing = true;
                         while (playing)
                         {
-                                
-                                Console.WriteLine("Was möchtest du tun?");
-                                Console.WriteLine($"Charakter: {player.Name}, Klasse: {player.Klasse}, Level: {player.Level}, Gesundheit: {player.Health}, Mana: {player.Mana}, Erfahrung: {player.Experience}, Gold: {player.Gold}");
+
+                                Console.WriteLine("What do you want to do?");
+                                Console.WriteLine($"Character: {player.Name}, Class: {player.Klasse}, Level: {player.Level}, Health: {player.Health}, Mana: {player.Mana}, Experience: {player.Experience}, Gold: {player.Gold}");
                                 Console.WriteLine("Money: " + player.Gold);
-                                Console.WriteLine("1. Kampf starten");
-                                Console.WriteLine("2. Map anzeigen und optionen");
-                                Console.WriteLine("3. Statistiken anzeigen");
-                                Console.WriteLine("4. Inventar anzeigen");
-                                Console.WriteLine("5. Items verwenden");
-                                Console.WriteLine("6. Shop besuchen");
-                                Console.WriteLine("7. Mitglieder verwalten ");
-                                Console.WriteLine("8. Spiel speichern");
-                                Console.WriteLine("9. Spiel laden");
-                                Console.WriteLine("0. Beenden");
+                                Console.WriteLine("1. Start Battle");
+                                Console.WriteLine("2. Show Map and Options");
+                                Console.WriteLine("3. Show Stats");
+                                Console.WriteLine("4. Show Inventory");
+                                Console.WriteLine("5. Use Item");
+                                Console.WriteLine("6. Visit Shop");
+                                Console.WriteLine("7. Manage Members");
+                                Console.WriteLine("8. Save Game");
+                                Console.WriteLine("9. Load Game");
+                                Console.WriteLine("0. Quit");
                                 string choice = Console.ReadLine();
 
                                 switch (choice)
@@ -100,7 +100,7 @@ namespace ConsoleRPGApp
                                                 break;
 
                                         case "5":
-                                                Console.WriteLine("Welchen Gegenstand möchtest du verwenden?");
+                                                Console.WriteLine("Which item do you want to use?");
                                                 int x = 1;
 
                                                 foreach (var item in player.Inventory)
@@ -117,7 +117,7 @@ namespace ConsoleRPGApp
                                                 // parse the user's choice and use the selected item by name
                                                 if (!int.TryParse(choice2, out int selected))
                                                 {
-                                                        Console.WriteLine("Ungültige Auswahl, bitte eine Zahl eingeben.");
+                                                        Console.WriteLine("Invalid selection, please enter a number.");
                                                 }
                                                 else
                                                 {
@@ -129,7 +129,7 @@ namespace ConsoleRPGApp
                                                         }
                                                         else
                                                         {
-                                                                Console.WriteLine("Ungültige Auswahl, Index außerhalb des Bereichs.");
+                                                                Console.WriteLine("Invalid selection, index out of range.");
                                                         }
                                                 }
                                                 break;
@@ -143,30 +143,30 @@ namespace ConsoleRPGApp
                                                 break;
                                         case "8":
                                                 SaveSystem.SaveCharacter($"savegames/{player.Name}_level{player.Level}.json", player);
-                                                System.Console.WriteLine("Spiel gespeichert!");
+                                                System.Console.WriteLine("Game saved!");
                                                 break;
                                         case "9":
                                                 SaveSystem.LoadIntoCharacter($"savegames/{player.Name}_level{player.Level}.json", player);
-                                                System.Console.WriteLine("Spiel geladen!");
+                                                System.Console.WriteLine("Game loaded!");
                                                 break;
                                         case "0":
                                                 playing = false;
-                                                Console.WriteLine("Danke fürs Spielen!");
+                                                Console.WriteLine("Thanks for playing!");
                                                 break;
                                         default:
-                                                Console.WriteLine("Ungültige Auswahl, bitte versuche es erneut.");
+                                                Console.WriteLine("Invalid selection, please try again.");
                                                 break;
                                 }
                         }
+                }
+                class Einleitung
+                {
+                        public static void Intro()
+                        {
+                                Console.WriteLine("Welcome to my RPG game!");
+                                Console.WriteLine("In this game you can create a character, fight monsters and gain experience.");
+                                Console.WriteLine("Have fun!");
+                        }
+                }
         }
-        class Einleitung
-        {
-            public static void Intro()
-            {
-                Console.WriteLine("Willkommen zu meinem RPG-Spiel!");
-                Console.WriteLine("In diesem Spiel kannst du einen Charakter erstellen, gegen Monster kämpfen und Erfahrung sammeln.");
-                Console.WriteLine("Viel Spaß!");
-            }
-        }          
-    }
 }

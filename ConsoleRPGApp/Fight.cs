@@ -13,33 +13,33 @@ namespace Fight
 {
     public class Kampf
     {
-        
+
         public static void StartBattle(Character player, Character enemy)
         {
-            
-            Console.WriteLine($"Ein wildes {enemy.Name} erscheint!");
+
+            Console.WriteLine($"A wild {enemy.Name} appears!");
             while (player.Health > 0 && enemy.Health > 0)
             {
                 Console.WriteLine($"{player.Name}: {player.Health} HP, {player.Mana} MP");
                 Console.WriteLine($"{enemy.Name}: {enemy.Health} HP");
-                Console.WriteLine("Wähle eine Aktion:");
-                Console.WriteLine("1. Angreifen");
+                Console.WriteLine("Choose an action:");
+                Console.WriteLine("1. Attack");
                 if (player.magical && player.Spells.Count > 0)
                 {
-                    Console.WriteLine("2. Zauber wirken");
+                    Console.WriteLine("2. Cast Spell");
                 }
-                Console.WriteLine("3. Verteidigen");
-                Console.WriteLine("4. Fliehen");
+                Console.WriteLine("3. Defend");
+                Console.WriteLine("4. Flee");
                 string action = "";
-                while (string.IsNullOrEmpty(action)|| (action != "1" && action != "2"))
+                while (string.IsNullOrEmpty(action) || (action != "1" && action != "2"))
                 {
                     action = Console.ReadLine();
                     if (string.IsNullOrEmpty(action) || (action != "1" && action != "2"))
                     {
-                        Console.WriteLine("Ungültige Eingabe. Bitte wähle 1 oder 2.");
+                        Console.WriteLine("Invalid input. Please choose 1 or 2.");
                     }
                 }
-                
+
 
                 if (action == "1")
                 {
@@ -50,10 +50,10 @@ namespace Fight
                 }
                 else if (action == "2" && player.magical && player.Spells.Count > 0)
                 {
-                    Console.WriteLine("Wähle einen Zauber:");
+                    Console.WriteLine("Choose a spell:");
                     for (int i = 0; i < player.Spells.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {player.Spells[i].Name} (Kosten: {player.Spells[i].ManaCost} MP)");
+                        Console.WriteLine($"{i + 1}. {player.Spells[i].Name} (Cost: {player.Spells[i].ManaCost} MP)");
                     }
                     int spellChoice;
                     if (int.TryParse(Console.ReadLine(), out spellChoice) && spellChoice >= 1 && spellChoice <= player.Spells.Count)
@@ -62,12 +62,12 @@ namespace Fight
                     }
                     else
                     {
-                        Console.WriteLine("Ungültige Auswahl, du verlierst deinen Zug!");
+                        Console.WriteLine("Invalid selection, you lose your turn!");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Ungültige Aktion, du verlierst deinen Zug!");
+                    Console.WriteLine("Invalid action, you lose your turn!");
                 }
 
                 if (enemy.Health > 0)
@@ -81,14 +81,14 @@ namespace Fight
 
             if (player.Health <= 0)
             {
-                Console.WriteLine("Du wurdest besiegt...");
+                Console.WriteLine("You were defeated...");
             }
             else
             {
-                Console.WriteLine($"Du hast das {enemy.Name} besiegt!");
+                Console.WriteLine($"You defeated the {enemy.Name}!");
                 player.Experience += 30;
                 player.Gold += 20;
-                Console.WriteLine($"Du erhältst 30 Erfahrung und 20 Gold.");
+                Console.WriteLine($"You gain 30 Experience and 20 Gold.");
                 if (player.Experience >= player.Level * 100)
                 {
                     player.LevelUp();
@@ -128,17 +128,17 @@ namespace Fight
         }
         public void DisplayInfo()
         {
-            Console.WriteLine($"Name: {Name}, Level: {Level}, Rolle: {Role}");
+            Console.WriteLine($"Name: {Name}, Level: {Level}, Role: {Role}");
         }
         public void LevelUp()
         {
             Level++;
-            Console.WriteLine($"{Name} ist jetzt Level {Level}!");
+            Console.WriteLine($"{Name} is now Level {Level}!");
         }
         public void Create_Random_Member()
         {
             string[] names = { "Arin", "Borin", "Cirin", "Dorin", "Erin", "Farin", "Gorin", "Harin", "Irin", "Jorin", "Kirin", "Lorin", "Marin", "Narin", "Orin", "Parin", "Qirin", "Rorin", "Sarin", "Tarin" };
-            string[] roles = { "Krieger", "Magier", "Schurke", "Heiler", "Dieb", "Bogenschütze", "Paladin", "Druide", "Hexenmeister", "Berserker", "Assassine", "Mönch", "Jäger", "Kleriker", "Nekromant", "Alchemist", "Runenmeister", "Wächter", "Sammler", "Seher" };
+            string[] roles = { "Warrior", "Mage", "Rogue", "Healer", "Thief", "Archer", "Paladin", "Druid", "Warlock", "Berserker", "Assassin", "Monk", "Hunter", "Cleric", "Necromancer", "Alchemist", "Runemaster", "Guardian", "Collector", "Seer" };
             Name = names[Random.Shared.Next(names.Length)];
             Level = Random.Shared.Next(1, 5);
             Role = roles[Random.Shared.Next(roles.Length)];
@@ -149,10 +149,10 @@ namespace Fight
     {
         public static Character CreateMonster(int level)
         {
-            string[] monsterNames = { "Goblin", "Ork", "Troll", "Skelett", "Zombie", "Dämon", "Riese", "Drache", "Vampir", "Werwolf", "Ghul", "Harpyie", "Minotaurus", "Golem",
-                "Phantom", "Banshee", "Chimäre", "Hydra", "Mumie", "Sphinx", "Wichtel", "Greif", "Kobold", "Nekromant", "Schatten", "Wyrm", "Elementar", "Drachenling", "Lich", "Dämonenhund",
-                "Schattenläufer", "Feuergeist", "Eisriese", "Blitzdämon", "Giftmischer", "Nachtmahr", "Seelenfresser", "Zeitwandler", "Dimensionswanderer", "Traumweber", "Sternenwandler",
-                "Nebelgeist", "Dunkelheitsbringer", "Lichtbringer", "Sturmrufer", "Erdbrecher", "Wassermagier", "Feuerzauberer", "Eismagier", "Blitzmagier" };
+            string[] monsterNames = { "Goblin", "Orc", "Troll", "Skeleton", "Zombie", "Demon", "Giant", "Dragon", "Vampire", "Werewolf", "Ghoul", "Harpy", "Minotaur", "Golem",
+                "Phantom", "Banshee", "Chimera", "Hydra", "Mummy", "Sphinx", "Imp", "Griffin", "Kobold", "Necromancer", "Shadow", "Wyrm", "Elemental", "Dragonling", "Lich", "Hellhound",
+                "Shadowrunner", "Fire Spirit", "Ice Giant", "Lightning Demon", "Poisoner", "Nightmare", "Soul Eater", "Time Walker", "Dimension Walker", "Dream Wever", "Star Walker",
+                "Mist Spirit", "Darkness Bringer", "Light Bringer", "Storm Caller", "Earth Breaker", "Water Mage", "Fire Mage", "Ice Mage", "Lightning Mage" };
             Random rand = new Random();
             string name = monsterNames[rand.Next(monsterNames.Length)];
             Character monster = new Character(name)

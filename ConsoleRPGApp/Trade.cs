@@ -12,81 +12,81 @@ namespace Trade
     {
         public static void OpenShop(Character player)
         {
-                Console.WriteLine("Willkommen im Shop!");
-                Item sword = new Item("Schwert");
-                Item staff = new Item("Zauberstab");
-                Item dagger = new Item("Dolch");
-                Item potion = new Item("Heiltrank");
-                
-                var shopItems = new List<Item> { sword, staff, dagger, potion };
+            Console.WriteLine("Welcome to the Shop!");
+            Item sword = new Item("Sword");
+            Item staff = new Item("Staff");
+            Item dagger = new Item("Dagger");
+            Item potion = new Item("Health Potion");
 
-                Console.WriteLine("Verfügbare Artikel:");
-                for (int i = 0; i < shopItems.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {shopItems[i].Name} (Preis: 20 Gold)");
-                }
+            var shopItems = new List<Item> { sword, staff, dagger, potion };
 
-                Console.WriteLine("Wähle einen Artikel zum Kauf (oder 0 zum Verlassen):");
-                int choice;
-                if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= shopItems.Count)
+            Console.WriteLine("Available Items:");
+            for (int i = 0; i < shopItems.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {shopItems[i].Name} (Price: 20 Gold)");
+            }
+
+            Console.WriteLine("Choose an item to buy (or 0 to leave):");
+            int choice;
+            if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= shopItems.Count)
+            {
+                if (player.Gold >= 20)
                 {
-                    if (player.Gold >= 20)
-                    {
-                        player.Gold -= 20;
-                        Inventar.AddItem(shopItems[choice - 1],player);
-                        Console.WriteLine($"Du hast {shopItems[choice - 1].Name} gekauft!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Nicht genug Gold!");
-                    }
+                    player.Gold -= 20;
+                    Inventar.AddItem(shopItems[choice - 1], player);
+                    Console.WriteLine($"You bought {shopItems[choice - 1].Name}!");
                 }
                 else
                 {
-                    Console.WriteLine("Verlasse den Shop.");
+                    Console.WriteLine("Not enough Gold!");
                 }
+            }
+            else
+            {
+                Console.WriteLine("Leaving Shop.");
+            }
         }
     }
     public class Inventar
     {
-        
+
         public static void AddItem(Item item, Character player)
         {
             player.Inventory.Add(item);
-            Console.WriteLine($"{item.Name} wurde zum Inventar hinzugefügt.");
+            Console.WriteLine($"{item.Name} was added to inventory.");
         }
 
         public static void ShowInventory(Character player)
         {
-            Console.WriteLine("Inventar:");
+            Console.WriteLine("Inventory:");
             foreach (var item in player.Inventory)
-                {
-                    Console.WriteLine($"- {item.Name}: Schaden {item.Damage}, Heilung {item.HealAmount}");
-                }
+            {
+                Console.WriteLine($"- {item.Name}: Damage {item.Damage}, Heal {item.HealAmount}");
+            }
         }
-        
+
         public static void UseItem(string itemName, Character player)
         {
             var item = player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
             if (item != null)
             {
-                if (item.Name == "Heiltrank")
+                if (item.Name == "Health Potion")
                 {
                     player.MaxHealth = 1000;
                     player.Health += item.HealAmount;
-                    if (player.Health > player.MaxHealth) player.Health = player.MaxHealth; // Maximalwert für Gesundheit
-                    Console.WriteLine($"{player.Name} verwendet {item.Name} und stellt {item.HealAmount} Gesundheit wieder her.");
+                    if (player.Health > player.MaxHealth) player.Health = player.MaxHealth; // Max value for health
+                    Console.WriteLine($"{player.Name} uses {item.Name} and restores {item.HealAmount} Health.");
                     player.Inventory.Remove(item);
                 }
                 else
                 {
-                    Console.WriteLine($"{item.Name} kann nicht verwendet werden.");
+                    Console.WriteLine($"{item.Name} cannot be used.");
                 }
             }
             else
             {
-                Console.WriteLine($"{itemName} ist nicht im Inventar.");
+                Console.WriteLine($"{itemName} is not in inventory.");
             }
 
         }
@@ -114,8 +114,8 @@ namespace Trade
         }
         public void AddRandomAttackItem()
         {
-            string[] names = { "Schwert", "Zauberstab", "Dolch", "Rüstung", "Ring", "Amulett", "Bogen", "Stab", "Axt", "Hammer", "Schild", "Helm", "Schuhe", "Handschuhe", "Gürtel", "Umhang", "Talisman", "Kriegshammer", "Speer", "Streitkolben", "Katana" };
-            
+            string[] names = { "Sword", "Staff", "Dagger", "Armor", "Ring", "Amulet", "Bow", "Wand", "Axe", "Hammer", "Shield", "Helm", "Boots", "Gloves", "Belt", "Cloak", "Talisman", "Warhammer", "Spear", "Mace", "Katana" };
+
             Name = names[Random.Shared.Next(names.Length)];
             Damage = Random.Shared.Next(5, 15);
             CriticalChance = Random.Shared.Next(1, 10);
@@ -126,34 +126,34 @@ namespace Trade
         }
         public void AddRandomConsumableItem()
         {
-            string[] names = { "Heiltrank", "Manatrank", "Stärketrank", "Geschwindigkeitselixier", "Schutztrank", "Kraftelixier", "Regenerationstrank", "Glücksbringer", "Unsichtbarkeitstrank", "Feuerresistenztrank" };
-            
+            string[] names = { "Health Potion", "Mana Potion", "Strength Potion", "Speed Elixir", "Defense Potion", "Power Elixir", "Regeneration Potion", "Lucky Charm", "Invisibility Potion", "Fire Resistance Potion" };
+
             Name = names[Random.Shared.Next(names.Length)];
 
         }
         public void AddRandomBuffItem()
         {
-            string[] names = { "Stärkungsring", "Schutzamulett", "Geschwindigkeitsumhang", "Kraftgürtel", "Glücksmedaille", "Regenerationsstab", "Feuerresistenzschild", "Eisresistenzhelm", "Blitzresistenzhandschuhe", "Giftresistenzschuhe" };
-            
+            string[] names = { "Strength Ring", "Defense Amulet", "Speed Cloak", "Power Belt", "Lucky Medal", "Regeneration Staff", "Fire Resistance Shield", "Ice Resistance Helm", "Lightning Resistance Gloves", "Poison Resistance Boots" };
+
             Name = names[Random.Shared.Next(names.Length)];
 
         }
         public void AddRandomQuestItem()
         {
-            string[] names = { "Amulett der Macht", "Schlüssel des Schicksals", "Karte des verlorenen Schatzes", "Ring der Weisheit", "Kristall der Zeit", "Buch der Geheimnisse", "Stab der Elemente", "Medaille des Helden", "Siegel der Dunkelheit", "Talisman des Lichts" };
-            
+            string[] names = { "Amulet of Power", "Key of Destiny", "Map of Lost Treasure", "Ring of Wisdom", "Crystal of Time", "Book of Secrets", "Staff of Elements", "Medal of the Hero", "Seal of Darkness", "Talisman of Light" };
+
             Name = names[Random.Shared.Next(names.Length)];
         }
         public void AddRandomCraftingMaterial()
         {
-            string[] names = { "Eisen", "Holz", "Leder", "Stoff", "Kristall", "Gold", "Silber", "Kupfer", "Diamant", "Rubin", "Saphir", "Smaragd", "Obsidian", "Mithril", "Adamantium", "Drachenhaut", "Phönixfeder", "Elfenbein", "Dämonenblut", "Geisterasche" };
-            
+            string[] names = { "Iron", "Wood", "Leather", "Cloth", "Crystal", "Gold", "Silver", "Copper", "Diamond", "Ruby", "Sapphire", "Emerald", "Obsidian", "Mithril", "Adamantium", "Dragon Skin", "Phoenix Feather", "Ivory", "Demon Blood", "Ghost Ash" };
+
             Name = names[Random.Shared.Next(names.Length)];
         }
         public void AddRandomMiscItem()
         {
-            string[] names = { "Alte Münze", "Verzauberter Stein", "Mysteriöser Schlüssel", "Antikes Relikt", "Seltsamer Apparat", "Geheimnisvolle Schriftrolle", "Verblasstes Gemälde", "Rätselhafte Statue", "Uralte Karte", "Magischer Spiegel" };
-            
+            string[] names = { "Old Coin", "Enchanted Stone", "Mysterious Key", "Ancient Relic", "Strange Device", "Secret Scroll", "Faded Painting", "Enigmatic Statue", "Ancient Map", "Magic Mirror" };
+
             Name = names[Random.Shared.Next(names.Length)];
         }
 
